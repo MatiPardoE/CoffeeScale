@@ -1,0 +1,28 @@
+Fecha limite preliminar: 1 de mayo
+
+Actualizacion Informe:
+-IEEE Paper
+-Titulo
+-Introduccion
+-Solucion Propuesta
+-Diagrama en bloques con interconexion de bloques y pines a usar
+-Recordar pin de medicion de bateria
+-Descripcion de los pines de cada hardware
+-Dispositivo de contraste
+
+
+29/05/23
+Feedback Revision:
+-Alcance y prestaciones:
+	-Agregar modos de trabajo (Done)
+	-Menu de Usuario (Done)
+	-Modo Bajo consumo (Done)
+
+
+-Diag. Bloques, perifericos en bloques y puertos.
+
+-Funcionalidades extras(para promo) o Precision:
+	-Medicion del Caudal (Done)
+	-Flash (Done)
+	-RTC (Done)
+	
