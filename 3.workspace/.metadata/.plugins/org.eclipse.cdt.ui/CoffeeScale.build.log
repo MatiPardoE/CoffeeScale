@@ -1,0 +1,10 @@
+00:03:34 **** Incremental Build of configuration Debug for project CoffeeScale ****
+make -j6 all 
+arm-none-eabi-size   CoffeeScale.elf 
+   text	   data	    bss	    dec	    hex	filename
+  22816	    136	   3192	  26144	   6620	CoffeeScale.elf
+Finished building: default.size.stdout
+ 
+
+00:03:35 Build Finished. 0 errors, 0 warnings. (took 348ms)
+

@@ -1,0 +1,17 @@
+Tiene que estar las citas en APA
+
+Hay que conocer comom funcionan todos los modulitos que use, no en detalle, pero una buena idea general siempre
+
+Preferentemente en latex, sino la plantilla de word.
+
+Poner bien los anexos de pcbs y esquematicos marcando cada una de las distintas zonas, puntos de medicion, procedimientos para medir, etc.
+
+Los anexos no tienen que estar en formato IEEE, podemos revolear los distintos archivos que salen de altium o lo que sea que estemos usando.
+
+Buenos diagramas de tareas / maquinas de estados que me digan con claridad como se relacionan las distintas TAREAS, FUNCIONES IMPORTANTES y RECURSOS DEL SISTEMA OPERATIVO (colas, prioridades, bla bla bla)
+
+Poner nombres de los archivos de altium porque se ve que le excitan estas cosas al pelotudo de mierda este. Que sea legible y ojo con los colores que ya dijo 45 veces que es daltonico
+
+Manual/Guia de uso y de reparacion
+
+

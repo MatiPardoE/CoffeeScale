@@ -60,6 +60,34 @@ Used DCodes :
 *************************************************************
 
 *************************************************************
+Generating : Bottom Paste
+      File : PCB.GBP
+
+    Adding Layer      : Bottom Paste
+
+    Adding Layer      : Bottom Layer
+
+    Adding Layer      : Multi-Layer
+
+
+Used DCodes :
+*************************************************************
+
+*************************************************************
+Generating : Top Paste
+      File : PCB.GTP
+
+    Adding Layer      : Top Paste
+
+    Adding Layer      : Top Layer
+
+    Adding Layer      : Multi-Layer
+
+
+Used DCodes :
+*************************************************************
+
+*************************************************************
 Generating : Top Overlay
       File : PCB.GTO
 
@@ -85,7 +113,6 @@ Generating : Bottom Layer
 
 
 Used DCodes :
-    D14
     D31
     D32
     D33
@@ -102,6 +129,7 @@ Used DCodes :
     D44
     D45
     D46
+    D47
 *************************************************************
 
 *************************************************************
@@ -114,7 +142,6 @@ Generating : Top Layer
 
 
 Used DCodes :
-    D14
     D31
     D32
     D33
@@ -130,5 +157,6 @@ Used DCodes :
     D43
     D44
     D45
+    D46
 *************************************************************
 
