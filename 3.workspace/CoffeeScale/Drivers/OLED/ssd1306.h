@@ -128,6 +128,11 @@ typedef enum {
     SSD1306_ERR = 0x01  // Generic error.
 } SSD1306_Error_t;
 
+typedef enum {
+	SSD1306_0x78 = (0x3D << 1),
+	SSD1306_0x7A = (0x3C << 1)
+}SSD1306_ADDR;
+
 // Struct to store transformations
 typedef struct {
     uint16_t CurrentX;
@@ -179,6 +184,9 @@ void ssd1306_SetDisplayOn(const uint8_t on);
  *          1: ON.
  */
 uint8_t ssd1306_GetDisplayOn();
+
+//Support for two Oleds
+uint16_t ssd1306_i2c_addr_var; //Default
 
 // Low-level procedures
 void ssd1306_Reset(void);

@@ -66,11 +66,28 @@ static void ShowScreen( void *pvParameters) {
 	uint8_t i = 1;
 	uint8_t retVal;
 
+	ssd1306_Select(SSD1306_0x78);
+	ssd1306_Fill(Black);
+	ssd1306_UpdateScreen();
+	ssd1306_Select(SSD1306_0x7A);
+	ssd1306_Fill(Black);
+	ssd1306_UpdateScreen();
+
+
     while (1){
-    	sprintf(str,"Hello World %d",i++);
+    	sprintf(str,"Te quiero %dKm",i++);
+
+    	ssd1306_Select(SSD1306_0x7A);
     	ssd1306_SetCursor(10, 10);
     	retVal = ssd1306_WriteString(str, Font_7x10, White);
     	ssd1306_UpdateScreen();
+
+    	ssd1306_Select(SSD1306_0x78);
+    	ssd1306_SetCursor(10, 10);
+    	retVal = ssd1306_WriteString(str, Font_7x10, White);
+    	ssd1306_UpdateScreen();
+
+
     }
 
 }
@@ -106,7 +123,9 @@ int main(void)
   MX_GPIO_Init();
   MX_I2C2_Init();
   /* USER CODE BEGIN 2 */
-
+  ssd1306_Select(SSD1306_0x78);
+  ssd1306_Init();
+  ssd1306_Select(SSD1306_0x7A);
   ssd1306_Init();
 
   xTaskCreate(ShowScreen,                  	// Nombre de la función que se ejecutará como tarea
