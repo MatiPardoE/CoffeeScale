@@ -46,6 +46,8 @@
 /* Private variables ---------------------------------------------------------*/
 I2C_HandleTypeDef hi2c2;
 
+TIM_HandleTypeDef htim3;
+
 /* USER CODE BEGIN PV */
 
 /* USER CODE END PV */
@@ -54,6 +56,7 @@ I2C_HandleTypeDef hi2c2;
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_I2C2_Init(void);
+static void MX_TIM3_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -63,28 +66,26 @@ static void MX_I2C2_Init(void);
 static void ShowScreen( void *pvParameters) {
 
 	char str[50];  // Declaramos un arreglo de caracteres para almacenar el resultado
-	uint8_t i = 1;
-	uint8_t retVal;
 
-	ssd1306_Select(SSD1306_0x78);
+	ssd1306_Select(SH1106_bigOLED);
 	ssd1306_Fill(Black);
 	ssd1306_UpdateScreen();
-	ssd1306_Select(SSD1306_0x7A);
+	ssd1306_Select(SSD1306_smallOLED);
 	ssd1306_Fill(Black);
 	ssd1306_UpdateScreen();
 
 
     while (1){
-    	sprintf(str,"Te quiero %dKm",i++);
+    	sprintf(str,"Encoder: %d",((int)(TIM3->CNT)>>2));
 
-    	ssd1306_Select(SSD1306_0x7A);
-    	ssd1306_SetCursor(10, 10);
-    	retVal = ssd1306_WriteString(str, Font_7x10, White);
+    	ssd1306_Select(SH1106_bigOLED);
+    	ssd1306_SetCursor(0, 0);
+    	ssd1306_WriteString(str, Font_7x10, White);
     	ssd1306_UpdateScreen();
 
-    	ssd1306_Select(SSD1306_0x78);
-    	ssd1306_SetCursor(10, 10);
-    	retVal = ssd1306_WriteString(str, Font_7x10, White);
+    	ssd1306_Select(SSD1306_smallOLED);
+    	ssd1306_SetCursor(0, 0);
+    	ssd1306_WriteString(str, Font_7x10, White);
     	ssd1306_UpdateScreen();
 
 
@@ -106,7 +107,9 @@ int main(void)
   /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-  HAL_Init();
+
+
+	HAL_Init();
 
   /* USER CODE BEGIN Init */
 
@@ -122,10 +125,13 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_I2C2_Init();
+  MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
-  ssd1306_Select(SSD1306_0x78);
+  HAL_TIM_Encoder_Start(&htim3, TIM_CHANNEL_ALL);
+
+  ssd1306_Select(SSD1306_smallOLED);
   ssd1306_Init();
-  ssd1306_Select(SSD1306_0x7A);
+  ssd1306_Select(SH1106_bigOLED);
   ssd1306_Init();
 
   xTaskCreate(ShowScreen,                  	// Nombre de la función que se ejecutará como tarea
@@ -224,17 +230,73 @@ static void MX_I2C2_Init(void)
 }
 
 /**
+  * @brief TIM3 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_TIM3_Init(void)
+{
+
+  /* USER CODE BEGIN TIM3_Init 0 */
+
+  /* USER CODE END TIM3_Init 0 */
+
+  TIM_Encoder_InitTypeDef sConfig = {0};
+  TIM_MasterConfigTypeDef sMasterConfig = {0};
+
+  /* USER CODE BEGIN TIM3_Init 1 */
+
+  /* USER CODE END TIM3_Init 1 */
+  htim3.Instance = TIM3;
+  htim3.Init.Prescaler = 0;
+  htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim3.Init.Period = 65535;
+  htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim3.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
+  sConfig.EncoderMode = TIM_ENCODERMODE_TI12;
+  sConfig.IC1Polarity = TIM_ICPOLARITY_RISING;
+  sConfig.IC1Selection = TIM_ICSELECTION_DIRECTTI;
+  sConfig.IC1Prescaler = TIM_ICPSC_DIV1;
+  sConfig.IC1Filter = 10;
+  sConfig.IC2Polarity = TIM_ICPOLARITY_RISING;
+  sConfig.IC2Selection = TIM_ICSELECTION_DIRECTTI;
+  sConfig.IC2Prescaler = TIM_ICPSC_DIV1;
+  sConfig.IC2Filter = 10;
+  if (HAL_TIM_Encoder_Init(&htim3, &sConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim3, &sMasterConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM3_Init 2 */
+
+  /* USER CODE END TIM3_Init 2 */
+
+}
+
+/**
   * @brief GPIO Initialization Function
   * @param None
   * @retval None
   */
 static void MX_GPIO_Init(void)
 {
+  GPIO_InitTypeDef GPIO_InitStruct = {0};
 
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOD_CLK_ENABLE();
-  __HAL_RCC_GPIOB_CLK_ENABLE();
   __HAL_RCC_GPIOA_CLK_ENABLE();
+  __HAL_RCC_GPIOB_CLK_ENABLE();
+
+  /*Configure GPIO pin : Encoder_btn_Pin */
+  GPIO_InitStruct.Pin = Encoder_btn_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  HAL_GPIO_Init(Encoder_btn_GPIO_Port, &GPIO_InitStruct);
 
 }
 
